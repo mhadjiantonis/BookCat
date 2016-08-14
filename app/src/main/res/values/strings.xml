@@ -5,4 +5,5 @@
     <string name="magnifying_glass">\uD83D\uDD0E</string>
     <string name="enter_valid_query">Enter a valid search query</string>
     <string name="no_description">No description available</string>
+    <string name="instructions">Add a keyword and press \uD83D\uDD0E for results</string>
 </resources>

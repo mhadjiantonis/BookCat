@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Book> mBookList = null;
     BookAdapter mAdapter = null;
     ListView mBookListView = null;
+    TextView mInstructionsText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
         // Locate the ListView in the main layout.
         mBookListView = (ListView) findViewById(R.id.book_list_view);
 
+        //Locate the TextView of instructions
+        mInstructionsText = (TextView) findViewById(R.id.instructions_text);
+
         // Restore previous saved state if it exists.
         // The search results are not lost when the orientation of the device is changed.
         if (savedInstanceState != null) {
@@ -84,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (mBookList != null) {
             mAdapter = new BookAdapter(getApplicationContext(), mBookList);
+        } else {
+            // If no data are present, show the instructions' TextView
+            mInstructionsText.setVisibility(View.VISIBLE);
         }
 
         // Attach the BookAdapter to the list
@@ -355,6 +362,7 @@ public class MainActivity extends AppCompatActivity {
             mBookList = bookArrayList;
             mAdapter = new BookAdapter(getApplicationContext(), mBookList);
             mBookListView.setAdapter(mAdapter);
+            mInstructionsText.setVisibility(View.INVISIBLE);
         }
     }
 
