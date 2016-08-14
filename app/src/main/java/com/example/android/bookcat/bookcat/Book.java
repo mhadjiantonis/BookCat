@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.android.bookcat.bookcat;
 
 import java.util.ArrayList;
@@ -31,51 +46,19 @@ public class Book {
     }
 
     /**
-     * Sets the title of the book
-     * @param title the new title
-     */
-    public void setTitle(String title) {
-        this.mTitle = title;
-    }
-
-    /**
-     * Sets the authors of the book
-     * @param authors a list of the new authors
-     */
-    public void setAuthors(ArrayList<String> authors) {
-        this.mAuthors = authors;
-    }
-
-    /**
-     * Sets the description text for the book
-     * @param description the new description
-     */
-    public void setDescription(String description) {
-        this.mDescription = description;
-    }
-
-    /**
-     * Sets the preview url of the book
-     * @param previewUrl the new preview url
-     */
-    public void setPreviewUrl(String previewUrl) {
-        this.mPreviewUrl = previewUrl;
-    }
-
-    /**
-     * Sets the thumbnail url of the book
-     * @param imageUrl the new thumbnail url
-     */
-    public void setImageUrl(String imageUrl) {
-        this.mImageUrl = imageUrl;
-    }
-
-    /**
      * Returns the title of the book
      * @return the book's title
      */
     public String getTitle() {
         return mTitle;
+    }
+
+    /**
+     * Sets the title of the book
+     * @param title the new title
+     */
+    public void setTitle(String title) {
+        this.mTitle = title;
     }
 
     /**
@@ -87,11 +70,27 @@ public class Book {
     }
 
     /**
+     * Sets the authors of the book
+     * @param authors a list of the new authors
+     */
+    public void setAuthors(ArrayList<String> authors) {
+        this.mAuthors = authors;
+    }
+
+    /**
      * Returns a description for the book
      * @return the description for the book
      */
     public String getDescription() {
         return mDescription;
+    }
+
+    /**
+     * Sets the description text for the book
+     * @param description the new description
+     */
+    public void setDescription(String description) {
+        this.mDescription = description;
     }
 
     /**
@@ -103,11 +102,27 @@ public class Book {
     }
 
     /**
+     * Sets the preview url of the book
+     * @param previewUrl the new preview url
+     */
+    public void setPreviewUrl(String previewUrl) {
+        this.mPreviewUrl = previewUrl;
+    }
+
+    /**
      * Returns the thumbnail URL for the book
      * @return the thumbnail URL
      */
     public String getImageUrl() {
         return mImageUrl;
+    }
+
+    /**
+     * Sets the thumbnail url of the book
+     * @param imageUrl the new thumbnail url
+     */
+    public void setImageUrl(String imageUrl) {
+        this.mImageUrl = imageUrl;
     }
 
     @Override
