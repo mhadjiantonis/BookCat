@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Book Cat</string>
+    <string name="search_for">Search for:</string>
+    <string name="search">Search</string>
+    <string name="magnifying_glass">\uD83D\uDD0E</string>
+    <string name="enter_valid_query">Enter a valid search query</string>
+    <string name="no_description">No description available</string>
+</resources>
