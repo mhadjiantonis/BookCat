@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -68,6 +69,8 @@ public class BookAdapter extends ArrayAdapter<Book>{
         }
         // Set the image source to be used.
         thumbImg.setImageResource(R.mipmap.book_cat_launcher);
+        DownloadImageTask downloadImageTask = new DownloadImageTask(new WeakReference<>(thumbImg));
+        downloadImageTask.execute(currentBook.getImageUrl());
 
         return availView;
     }
