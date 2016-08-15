@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                         QueryAsyncTask queryTask = new QueryAsyncTask();
                         queryTask.execute(searchUrl);
                     }
-                    ret =  true;
+                    ret = true;
                 }
                 return ret;
             }
@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Generates a {@link URL} based on the text entered in the search {@link TextInputEditText}.
+     *
      * @return the {@link URL} that is to be used to get book information.
      */
     URL makeSearchUrl() {
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
      * Extracts an {@link ArrayList} of {@link Book} objects from the {@link JSONObject} generated
      * by the {@link QueryAsyncTask} that will be used to populate the {@link ListView} in the
      * {@link MainActivity}
+     *
      * @return an {@link ArrayList} of {@link Book} objects
      */
     @Nullable
@@ -210,44 +212,52 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Book> bookList = new ArrayList<>();
         try {
             // Create a JSONObject from the previously obtained response.
-            JSONObject jsonResponse = new JSONObject(mJsonResponse);
+            JSONObject jsonResponse;
+            if (mJsonResponse != null) {
+                jsonResponse = new JSONObject(mJsonResponse);
+            } else {
+                // If no response available return early
+                return null;
+            }
             // Create a JSONArray from the that includes all the books.
             JSONArray bookListJSON = jsonResponse.getJSONArray("items");
             // For each element of the array get the details needed.
-            for (int i = 0; i < bookListJSON.length(); i++) {
-                JSONObject currentBookJSON = bookListJSON.getJSONObject(i);
-                JSONObject volumeInfo = currentBookJSON.getJSONObject("volumeInfo");
-                // Get the title of the book
-                String title = volumeInfo.getString("title");
-                // Get the array of authors.
-                JSONArray authorListJSON = volumeInfo.optJSONArray("authors");
-                ArrayList<String> authorList = new ArrayList<>();
-                if (authorListJSON != null) {
-                    for (int j = 0; j < authorListJSON.length(); j++) {
-                        String author = authorListJSON.getString(j);
-                        authorList.add(author);
+            if (bookListJSON != null) {
+                for (int i = 0; i < bookListJSON.length(); i++) {
+                    JSONObject currentBookJSON = bookListJSON.getJSONObject(i);
+                    JSONObject volumeInfo = currentBookJSON.getJSONObject("volumeInfo");
+                    // Get the title of the book
+                    String title = volumeInfo.getString("title");
+                    // Get the array of authors.
+                    JSONArray authorListJSON = volumeInfo.optJSONArray("authors");
+                    ArrayList<String> authorList = new ArrayList<>();
+                    if (authorListJSON != null) {
+                        for (int j = 0; j < authorListJSON.length(); j++) {
+                            String author = authorListJSON.getString(j);
+                            authorList.add(author);
+                        }
                     }
+                    // Get the preview URL for the book.
+                    String previewUrl = volumeInfo.getString("previewLink");
+                    // Get the thumbnail image's URL.
+                    JSONObject imageLinks = volumeInfo.optJSONObject("imageLinks");
+                    String imageUrl;
+                    if (imageLinks != null) {
+                        imageUrl = imageLinks.optString("smallThumbnail");
+                    } else {
+                        imageUrl = null;
+                    }
+                    //Get the description for the book
+                    JSONObject searchInfo = currentBookJSON.optJSONObject("searchInfo");
+                    String description;
+                    if (searchInfo != null) {
+                        description = searchInfo.optString("textSnippet");
+                    } else {
+                        description = volumeInfo.optString("description");
+                    }
+                    // Add the book in the return ArrayList.
+                    bookList.add(new Book(title, authorList, description, previewUrl, imageUrl));
                 }
-                // Get the preview URL for the book.
-                String previewUrl = volumeInfo.getString("previewLink");
-                // Get the thumbnail image's URL.
-                JSONObject imageLinks = volumeInfo.optJSONObject("imageLinks");
-                String imageUrl;
-                if (imageLinks != null) {
-                    imageUrl = imageLinks.optString("smallThumbnail");
-                } else {
-                    imageUrl = null;
-                }
-                //Get the description for the book
-                JSONObject searchInfo = currentBookJSON.optJSONObject("searchInfo");
-                String description;
-                if (searchInfo != null) {
-                    description = searchInfo.optString("textSnippet");
-                } else {
-                    description = volumeInfo.optString("description");
-                }
-                // Add the book in the return ArrayList.
-                bookList.add(new Book(title, authorList, description, previewUrl, imageUrl));
             }
         } catch (JSONException e) {
             // In case of an exception print a message in the log and return early.
@@ -283,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Open an {@link HttpURLConnection} from where it downloads a JSON response that
          * includes information about book
+         *
          * @param url to be used for the connection
          * @return a {@link String} object with JSON data
          * @throws IOException
@@ -334,6 +345,7 @@ public class MainActivity extends AppCompatActivity {
 
         /**
          * Reads the lines of the given {@link InputStream}
+         *
          * @param inputStream the {@link InputStream} from where to read.
          * @return a {@link String} with the contents of the given {@link InputStream}
          * @throws IOException
@@ -359,10 +371,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Book> bookArrayList) {
             super.onPostExecute(bookArrayList);
-            mBookList = bookArrayList;
-            mAdapter = new BookAdapter(getApplicationContext(), mBookList);
-            mBookListView.setAdapter(mAdapter);
-            mInstructionsText.setVisibility(View.INVISIBLE);
+            if (bookArrayList != null) {
+                mBookList = bookArrayList;
+                mAdapter = new BookAdapter(getApplicationContext(), mBookList);
+                mBookListView.setAdapter(mAdapter);
+                mInstructionsText.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
